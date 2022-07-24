@@ -104,7 +104,7 @@ const registerSubmit = function (request, response) {
                         from: process.env.EMAIL_ADDRESS,
                         to: request.body.email,
                         subject: 'Email verify for crypto payment',
-                        html: `<p>Please click the following link to verify your email!</p><br/><a href="${process.env.PAGE_URL}/register/emailVerify/${_result.insertedId}">Verify Link</a>`
+                        html: `<p>Please click the following link to verify your email!</p><br/><a href="${process.env.API_URL}/register/emailVerify/${_result.insertedId}">Verify Link</a>`
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) {

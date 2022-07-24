@@ -12,8 +12,8 @@ const timeout = require('connect-timeout');
 const Client = require('coinbase').Client;
 const session = require('express-session')
 const mustacheExpress = require('mustache-express');
-const RedisStore = require("connect-redis")(session);
-const { createClient } = require("redis");
+// const RedisStore = require("connect-redis")(session);
+// const { createClient } = require("redis");
 
 const mongoDB = require('./db');
 const path = require('path');
@@ -39,8 +39,8 @@ const {exchange} = require('./utils/exchange');
 const {getPayment} = require('./utils/getPayment');
 const {sendBCH} = require('./bch/send');
 
-let redisClient = createClient({ legacyMode: true });
-redisClient.connect().catch(console.error);
+// let redisClient = createClient({ legacyMode: true });
+// redisClient.connect().catch(console.error);
 
 dotenv.config();
 
@@ -97,7 +97,7 @@ else {
     app.use(cookieParser());
     app.use(responseTime());
     app.use(session({
-        store: new RedisStore({ client: redisClient }),
+        // store: new RedisStore({ client: redisClient }),
         secret: 'dag crypto brigde',
         resave: true,
         saveUninitialized: true,
@@ -216,17 +216,17 @@ else {
     });
 
     // Require the Routes API  
-    // Create a Server and run it on the port 5000, 5001, 5002, 5003
-    http.createServer(app).listen(process.env.PORT_BACKEND1 || 5000, function () {
+    // Create a Server and run it on the port 5000, 5001, 5002, 5003 => Temp disable
+    http.createServer(app).listen(process.env.PORT || 8080, function () {
         // Starting the Server at the port 5000
     })
-    http.createServer(app).listen(process.env.PORT_BACKEND2 || 5001, function () {
-        // Starting the Server at the port 5001
-    })
-    http.createServer(app).listen(process.env.PORT_BACKEND3 || 5002, function () {
-        // Starting the Server at the port 5002
-    })
-    http.createServer(app).listen(process.env.PORT_BACKEND4 || 5003, function () {
-        // Starting the Server at the port 5003
-    })
+    // http.createServer(app).listen(process.env.PORT_BACKEND2 || 5001, function () {
+    //     // Starting the Server at the port 5001
+    // })
+    // http.createServer(app).listen(process.env.PORT_BACKEND3 || 5002, function () {
+    //     // Starting the Server at the port 5002
+    // })
+    // http.createServer(app).listen(process.env.PORT_BACKEND4 || 5003, function () {
+    //     // Starting the Server at the port 5003
+    // })
 }

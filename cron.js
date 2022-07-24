@@ -105,4 +105,4 @@ const sendEthersToSeller = cron.schedule("* * * * *", async () => {
 console.log('Cron started');
 
 // updateTokenPriceInUSDTask.start();
-sendEthersToSeller.start();
+// sendEthersToSeller.start();
