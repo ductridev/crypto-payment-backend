@@ -83,7 +83,7 @@ else {
     app.set("views", path.join(path.resolve("."), '/public/templates/'));
 
     var corsOptions = {
-        origin: ['http://localhost:3000'],
+        origin: [process.env.API_URL],
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
 
