@@ -9,7 +9,7 @@ module.exports = {
         const password = process.env.PASSWORD;
         const cluster = process.env.CLUSTER;
 
-        const mongoClient = new MongoClient(`mongodb+srv://admin:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+        const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true

@@ -83,7 +83,7 @@ else {
     app.set("views", path.join(path.resolve("."), '/public/templates/'));
 
     var corsOptions = {
-        origin: [process.env.API_URL],
+        origin: ['https://crypto-payment.estar-solutions.com/', 'https://crypto-payment.estar-solutions.com'],
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
 

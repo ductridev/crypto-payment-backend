@@ -1,4 +1,4 @@
-service: crypto-payment-backend
+# service: crypto-payment-backend
 runtime: nodejs14
 env_variables:
   USERNAME: 'backend'
