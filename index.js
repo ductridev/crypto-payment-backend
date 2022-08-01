@@ -36,7 +36,7 @@ const {adminAuthenticate, userAuthenticate} = require('./utils/authencate');
 const {getHash} = require('./transactions/getHash');
 const {saveTransactions} = require('./transactions/saveTransactions');
 const {exchange} = require('./utils/exchange');
-const {getPayment} = require('./utils/getPayment');
+const {getPayment} = require('./transactions/getPayment');
 const {sendBCH} = require('./bch/send');
 
 // let redisClient = createClient({ legacyMode: true });
@@ -83,7 +83,8 @@ else {
     app.set("views", path.join(path.resolve("."), '/public/templates/'));
 
     var corsOptions = {
-        origin: ['https://crypto-payment.estar-solutions.com/', 'https://crypto-payment.estar-solutions.com'],
+        // origin: ['https://crypto-payment.estar-solutions.com/', 'https://crypto-payment.estar-solutions.com'],
+        origin: ['http://localhost:3000/', 'http://localhost:3000'],
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
 
@@ -139,8 +140,8 @@ else {
     app.get('/user/manage-transactions', userAuthenticate, transactions);
     app.get('/user/manage-wallet', userAuthenticate, wallet);
 
-    app.get('/signedTransactions/getHash/:transaction_id', getHash);
-    app.get('/signedTransactions/save/:transactionHash/:type/:amount/:gasUsed/:status', saveTransactions);
+    app.get('/transactions/getHash/:paymentID', getHash);
+    app.get('/transactions/save/:transactionHash/:type/:amount/:paymentID', saveTransactions);
 
     app.get('/exchange/:token/:currency/:amount', exchange);
     app.get('/getPayment/:paymentID', getPayment);
