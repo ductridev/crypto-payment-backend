@@ -29,11 +29,39 @@
                                     Users</p>
                             </div>
                         </div>
+                        <div class="w-100 h-10"></div>
                         <div class="col info">
                             <div class="info-box">
                                 <p class="info-header">Total value of Transactions</p>
                                 <p class="info-body">
                                     {{#totalAmount}}{{totalAmount}}{{/totalAmount}}{{^totalAmount}}0{{/totalAmount}} U.S
+                                    Dollar
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col info">
+                            <div class="info-box">
+                                <p class="info-header">Total value of Paid Transactions</p>
+                                <p class="info-body">
+                                    {{#totalPaidAmount}}{{totalPaidAmount}}{{/totalPaidAmount}}{{^totalPaidAmount}}0{{/totalPaidAmount}} U.S
+                                    Dollar
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col info">
+                            <div class="info-box">
+                                <p class="info-header">Total value of Failed Transactions</p>
+                                <p class="info-body">
+                                    {{#totalFailedAmount}}{{totalFailedAmount}}{{/totalFailedAmount}}{{^totalFailedAmount}}0{{/totalFailedAmount}} U.S
+                                    Dollar
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col info">
+                            <div class="info-box">
+                                <p class="info-header">Total value of Pending Transactions</p>
+                                <p class="info-body">
+                                    {{#totalPendingAmount}}{{totalPendingAmount}}{{/totalPendingAmount}}{{^totalPendingAmount}}0{{/totalPendingAmount}} U.S
                                     Dollar
                                 </p>
                             </div>

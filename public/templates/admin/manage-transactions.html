@@ -14,11 +14,34 @@
 <body aria-page="{{#page}}{{page}}{{/page}}{{^page}}{{/page}}">
     <div class="column-container">
         <div id="sidebar"></div>
-        <div class="_row row">
-            <div class="top-navigation" id="top-navigation"></div>
+        <div class="_row row" style="margin-right: unset;">
+            <div class="top-navigation" id="top-navigation" style="padding-right: 0;"></div>
             <div class="main" id="root">
-                <h1>Manage Transactions</h1>
+                <h1 style="padding-right: 0; width: fit-content !important; float: left;">Manage Transactions</h1>
                 <div>{{#error}}{{error}}{{/error}}{{^error}}{{/error}}</div>
+            </div>
+            <div style="padding-right: 0;">
+                <table class="table table-hover table-dark">
+                    <caption>List of Transactions</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Transactions ID</th>
+                            <th scope="col">Seller Address</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#transactions}}
+                        <th>{{_id}}</th>
+                        <th>{{sellerAddress}}</th>
+                        <th>{{amount}}</th>
+                        <th>{{currency}}</th>
+                        <th>{{paymentStatus}}</th>
+                        {{/transactions}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

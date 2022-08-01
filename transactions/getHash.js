@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getHash = function (request, response) {
     const dbName = "transactions";
-    const collectionName = "Signed Transactions";
+    const collectionName = "Transactions";
     const collectionName1 = "Receipts";
 
     var client = mongoDB.getDb();
@@ -12,9 +12,9 @@ const getHash = function (request, response) {
     var collection = db.collection(collectionName);
     var collection1 = db.collection(collectionName1);
 
-    let input = { transaction_id: request.params.transaction_id };
+    let input = { paymentID: request.params.paymentID };
 
-    collection.findOne({ _id: ObjectId(request.params.transaction_id) }, function (queryCollectionErr, result) {
+    collection.findOne({ _id: ObjectId(request.params.paymentID) }, function (queryCollectionErr, result) {
         if (queryCollectionErr) { 
             response.send({ status:'error', error: 'Error happened. Please contact support or try later.' });
         }

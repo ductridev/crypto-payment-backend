@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 const path = require('path');
 const md5 = require('md5');
 const nodemailer = require('nodemailer');
-const ObjectId = require('mongodb').ObjectId; 
+const ObjectId = require('mongodb').ObjectId;
 const dotenv = require('dotenv');
 
 const adminIndex = async function (request, response) {
@@ -32,21 +32,20 @@ const adminIndex = async function (request, response) {
     });
 
     var numOfUsers = await db.collection("User Accounts").countDocuments({});
-    var numOfTransactions = await client.db("transactions").collection("Receipts").countDocuments({});
-    var numOfSuccTransactions = await client.db("transactions").collection("Receipts").countDocuments({status: 'success'});
-    var numOfFailTransactions = await client.db("transactions").collection("Receipts").countDocuments({status: 'failed'});
-    var totalTransValue = await client.db("transactions").collection("Receipts").aggregate([{
-        $group:{
-            _id: '',
-            "amount": { $sum: '$amount'}
-        },
-        $project: {
-            _id: 0,
-            "totalAmount": '$amount'
+    var numOfTransactions = await client.db("transactions").collection("Transactions").countDocuments({});
+    var numOfSuccTransactions = await client.db("transactions").collection("Transactions").countDocuments({ paymentStatus: 'paid' });
+    var numOfFailTransactions = await client.db("transactions").collection("Transactions").countDocuments({ paymentStatus: 'failed' });
+    var AggregationCursor = await client.db("transactions").collection("Transactions").aggregate([{
+        $group: {
+            _id: null,
+            totalAmount: { $sum: { $toDouble: '$amount' } },
+            totalPaidAmount: { $sum: { $toDouble: { $cond: [{ $strcasecmp: ['$paymentStatus', 'paid'] }, 0, '$amount'] } } },
+            totalFailedAmount: { $sum: { $toDouble: { $cond: [{ $strcasecmp: ['$paymentStatus', 'failed'] }, 0, '$amount'] } } },
+            totalPendingAmount: { $sum: { $toDouble: { $cond: [{ $strcasecmp: ['$paymentStatus', 'pending'] }, 0, '$amount'] } } },
         }
     }]);
-
-    response.render(path.join(path.resolve("."), '/public/templates/admin/index.html'), { icon: iconURI, title: title, description: description, numOfUsers: numOfUsers, numOfTransactions: numOfTransactions, numOfSuccTransactions: numOfSuccTransactions, numOfFailTransactions: numOfFailTransactions, totalAmount: totalTransValue.totalAmount, page: 'index' });
+    var totalTransValue = await AggregationCursor.next();
+    response.render(path.join(path.resolve("."), '/public/templates/admin/index.html'), { icon: iconURI, title: title, description: description, numOfUsers: numOfUsers, numOfTransactions: numOfTransactions, numOfSuccTransactions: numOfSuccTransactions, numOfFailTransactions: numOfFailTransactions, totalAmount: totalTransValue.totalAmount, totalPaidAmount: totalTransValue.totalPaidAmount, totalFailedAmount: totalTransValue.totalFailedAmount, totalPendingAmount: totalTransValue.totalPendingAmount, page: 'index' });
 }
 
 module.exports = {
