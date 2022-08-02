@@ -34,11 +34,13 @@
                     </thead>
                     <tbody>
                         {{#transactions}}
-                        <th>{{_id}}</th>
-                        <th>{{sellerAddress}}</th>
-                        <th>{{amount}}</th>
-                        <th>{{currency}}</th>
-                        <th>{{paymentStatus}}</th>
+                        <tr>
+                            <th>{{_id}}</th>
+                            <th>{{sellerAddress}}</th>
+                            <th>{{amount}}</th>
+                            <th>{{currency}}</th>
+                            <th>{{paymentStatus}}</th>
+                        </tr>
                         {{/transactions}}
                     </tbody>
                 </table>
