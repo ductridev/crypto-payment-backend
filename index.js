@@ -35,7 +35,8 @@ const {adminUsers} = require("./admin/users");
 const {adminAuthenticate, userAuthenticate} = require('./utils/authencate');
 const {getHash} = require('./transactions/getHash');
 const {saveTransactions} = require('./transactions/saveTransactions');
-const {exchange} = require('./utils/exchange');
+const {exchangeFiat2Token} = require('./utils/exchangeFiat2Token');
+const {exchangeToken2Fiat} = require('./utils/exchangeToken2Fiat');
 const {getPayment} = require('./transactions/getPayment');
 const {sendBCH} = require('./bch/send');
 
@@ -143,7 +144,8 @@ else {
     app.get('/transactions/getHash/:paymentID', getHash);
     app.get('/transactions/save/:transactionHash/:type/:amount/:paymentID', saveTransactions);
 
-    app.get('/exchange/:token/:currency/:amount', exchange);
+    app.get('/exchangeFiat2Token/:token/:currency/:amount', exchangeFiat2Token);
+    app.get('/exchangeToken2Fiat/:token/:currency/:amountTo', exchangeToken2Fiat);
     app.get('/getPayment/:paymentID', getPayment);
 
     app.get('/bch/send/:sellerAddress/:key/:amount', sendBCH);

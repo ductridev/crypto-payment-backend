@@ -5,4 +5,3 @@ info.log
 warn.log
 yarn.lock
 gsn-relay-config.json
-.env

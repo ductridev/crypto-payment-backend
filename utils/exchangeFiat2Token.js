@@ -1,7 +1,7 @@
 const mongoDB = require('../db');
-const logger = require('../utils/logger');
+const logger = require('./logger');
 
-const exchange = async (request, response) => {
+const exchangeFiat2Token = async (request, response) => {
     const dbName = "TokenPrices";
     const collectionName = "Exchange Rates";
 
@@ -22,5 +22,5 @@ const exchange = async (request, response) => {
 }
 
 module.exports = {
-    exchange
+    exchangeFiat2Token
 }
