@@ -22,6 +22,9 @@ module.exports = {
     },
     getDb: function () {
         if (typeof _client === 'undefined') {
+            const password = process.env.PASSWORD;
+            const cluster = process.env.CLUSTER;
+
             const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
                 {
                     useNewUrlParser: true,
