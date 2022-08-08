@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const ObjectId = require('mongodb').ObjectId; 
 const dotenv = require('dotenv');
 
-const register = function (request, response) {
+const register = async function (request, response) {
     if (request.session.LoginUser === true) {
         response.redirect('/user/index');
     }
@@ -60,7 +60,7 @@ const register = function (request, response) {
         });
     }
 }
-const registerSubmit = function (request, response) {
+const registerSubmit = async function (request, response) {
     const dbName = "Website";
     const collectionName = "User Accounts";
 
@@ -126,7 +126,7 @@ const registerSubmit = function (request, response) {
         }
     });
 }
-const verifyEmail = function(request, response){
+const verifyEmail = async function(request, response){
     const dbName = "Website";
     const collectionName = "User Accounts";
 

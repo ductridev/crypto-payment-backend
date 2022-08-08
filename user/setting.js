@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const ObjectId = require('mongodb').ObjectId; 
 const dotenv = require('dotenv');
 
-const setting = function (request, response) {
+const setting = async function (request, response) {
     const dbName = "Website";
     const collectionName = "Setting";
 

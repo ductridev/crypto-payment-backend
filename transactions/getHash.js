@@ -2,7 +2,7 @@ const mongoDB = require('../db');
 const logger = require('../utils/logger');
 const ObjectId = require('mongodb').ObjectId;
 
-const getHash = function (request, response) {
+const getHash = async function (request, response) {
     const dbName = "transactions";
     const collectionName = "Transactions";
     const collectionName1 = "Receipts";

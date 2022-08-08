@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 class DAG {
     constructor() {
-        this.client = await mongoDB.getDb();
+        // this.client = await mongoDB.getDb();
         this.collection = this.client.db('DAG_Data').collection('data');
 
         this.blockNumber = this.getBlockNumber();
