@@ -232,6 +232,6 @@ else {
     // http.createServer(app).listen(process.env.PORT_BACKEND4 || 5003, function () {
     //     // Starting the Server at the port 5003
     // })
-}
 
-module.exports = app;
+    module.exports = app;
+}
