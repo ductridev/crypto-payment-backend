@@ -21,7 +21,7 @@ module.exports = {
         });
     },
     getDb: function () {
-        const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+        const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@cluster0.3scax.mongodb.net/?retryWrites=true&w=majority`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
