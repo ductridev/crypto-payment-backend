@@ -21,25 +21,39 @@ module.exports = {
         });
     },
     getDb: function () {
-        console.log(process.env);
-        if (typeof _client === 'undefined') {
+        const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true
+            }
+        );
+        mongoClient.connect(function (err, client) {
+            if (err) console.log(err);
+            _client = client;
+            console.log(client);
+            return client;
+        });
 
-            const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
-                {
-                    useNewUrlParser: true,
-                    useUnifiedTopology: true
-                }
-            );
-            mongoClient.connect(function (err, client) {
-                if(err) console.log(err);
-                _client = client;
-                console.log(client);
-                return client;
-            });
-        }
-        else {
-            console.log(_client);
-            return _client;
-        }
+        console.log(mongoClient);
+
+        // if (typeof _client === 'undefined') {
+
+        //     const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+        //         {
+        //             useNewUrlParser: true,
+        //             useUnifiedTopology: true
+        //         }
+        //     );
+        //     mongoClient.connect(function (err, client) {
+        //         if (err) console.log(err);
+        //         _client = client;
+        //         console.log(client);
+        //         return client;
+        //     });
+        // }
+        // else {
+        //     console.log(_client);
+        //     return _client;
+        // }
     }
 }
