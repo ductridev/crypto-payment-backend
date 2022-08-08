@@ -21,6 +21,7 @@ module.exports = {
         });
     },
     getDb: function () {
+        console.log(process.env);
         if (typeof _client === 'undefined') {
 
             const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
