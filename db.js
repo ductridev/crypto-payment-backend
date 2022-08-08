@@ -21,9 +21,8 @@ module.exports = {
         });
     },
     getDb: function () {
-        console.log(_client);
         if (typeof _client === 'undefined') {
-
+            console.log(_client);
             const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
                 {
                     useNewUrlParser: true,
@@ -31,6 +30,9 @@ module.exports = {
                 }
             );
             mongoClient.connect(function (err, client) {
+                console.log(err);
+                console.log(client);
+                console.log(mongoClient);
                 if (err) {
                     console.log(err);
                 }
