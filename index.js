@@ -46,12 +46,7 @@ const { sendBCH } = require('./bch/send');
 dotenv.config();
 
 const init_mongoDB = async () => {
-    await mongoDB.dbConn(function (err, client) {
-        if (err) console.log(err);
-        else {
-            console.log('connected');
-        }
-    });
+    await mongoDB.dbConn();
 }
 
 init_mongoDB();

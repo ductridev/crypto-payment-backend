@@ -7,41 +7,28 @@ const password = process.env.PASSWORD;
 const cluster = process.env.CLUSTER;
 
 module.exports = {
-    dbConn: async function (callback) {
+    dbConn: async function () {
 
-        const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+        _client = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             }
         );
-        mongoClient.connect(function (err, client) {
-            _client = client;
-            return callback(err, client);
-        });
+
+        await _client.connect();
     },
-    getDb: function () {
+    getDb: async function () {
         if (typeof _client === 'undefined') {
-            console.log(_client);
-            const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+            _client = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
                 {
                     useNewUrlParser: true,
                     useUnifiedTopology: true
                 }
             );
-            mongoClient.connect(function (err, client) {
-                console.log(err);
-                console.log(client);
-                console.log(mongoClient);
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    _client = client;
-                    console.log(client);
-                    return client;
-                }
-            });
+            await _client.connect();
+
+            return _client;
         }
         else {
             return _client;
