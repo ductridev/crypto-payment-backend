@@ -220,7 +220,7 @@ else {
 
     // Require the Routes API  
     // Create a Server and run it on the port 5000, 5001, 5002, 5003 => Temp disable
-    http.createServer(app).listen(process.env.PORT || 8080, function () {
+    http.createServer(app).listen(process.env.PORT || 5000, function () {
         // Starting the Server at the port 5000
     })
     // http.createServer(app).listen(process.env.PORT_BACKEND2 || 5001, function () {
