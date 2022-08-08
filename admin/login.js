@@ -1,10 +1,7 @@
-import { getDb } from '../db';
-import { log, error as _error } from '../utils/logger';
-import { join, resolve } from 'path';
-import md5 from 'md5';
-import nodemailer from 'nodemailer';
-import { ObjectId } from 'mongodb'; 
-import dotenv from 'dotenv';
+const mongoDB = require('../db');
+const logger = require('../utils/logger');
+const path = require('path');
+const md5 = require('md5');
 
 const adminLogin = function (request, response) {
     if (request.session.LoginAdmin === true) {
@@ -14,38 +11,39 @@ const adminLogin = function (request, response) {
         const dbName = "Website";
         const collectionName = "Setting";
 
-        var client = getDb();
+        var client = mongoDB.getDb();
+        console.log(client);
         const db = client.db(dbName);
         var collection = db.collection(collectionName);
 
         collection.find({}).toArray(function (queryCollectionErr, result) {
             if (queryCollectionErr) {
-                log({
+                logger.log({
                     level: 'error',
                     message: `Error in query collection ${dbName}.${collectionName}. Error: ${queryCollectionErr}`
                 })
-                _error(`Unable to query document(s) on the collection "${collectionName}". Error: ${queryCollectionErr}`);
+                logger.error(`Unable to query document(s) on the collection "${collectionName}". Error: ${queryCollectionErr}`);
                 if (request.query.error && request.query.login) {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'), { error: 'Login credential is wrong. Please try again!' });
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'), { error: 'Login credential is wrong. Please try again!' });
                 }
                 else {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'));
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'));
                 }
 
             } else if (result.length) {
                 if (request.query.error && request.query.login) {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'), { icon: result[0].iconURI, title: result[0].mp_title, description: result[0].mp_description, error: 'Login credential is wrong. Please try again!' });
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'), { icon: result[0].iconURI, title: result[0].mp_title, description: result[0].mp_description, error: 'Login credential is wrong. Please try again!' });
                 }
                 else {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'), { icon: result[0].iconURI, title: result[0].mp_title, description: result[0].mp_description });
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'), { icon: result[0].iconURI, title: result[0].mp_title, description: result[0].mp_description });
                 }
             }
             else {
                 if (request.query.error && request.query.login) {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'), { error: 'Login credential is wrong. Please try again!' });
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'), { error: 'Login credential is wrong. Please try again!' });
                 }
                 else {
-                    response.render(join(resolve("."), '/public/templates/admin/login.html'));
+                    response.render(path.join(path.resolve("."), '/public/templates/admin/login.html'));
                 }
             }
         });
@@ -56,16 +54,16 @@ const adminLoginSubmit = function (request, response) {
     const dbName = "Website";
     const collectionName = "Admin Account";
 
-    var client = getDb();
+    var client = mongoDB.getDb();
     const db = client.db(dbName);
 
     db.collection(collectionName).find({ username: request.body.username, password: md5(request.body.password) }).toArray(function (queryCollectionErr, result) {
         if (queryCollectionErr) {
-            log({
+            logger.log({
                 level: 'error',
                 message: `Error in query collection ${dbName}.${collectionName}. Error: ${queryCollectionErr}`
             })
-            _error(`Unable to query document(s) on the collection "${collectionName}". Error: ${queryCollectionErr}`);
+            logger.error(`Unable to query document(s) on the collection "${collectionName}". Error: ${queryCollectionErr}`);
             response.redirect('/admin/login?error=true&login=true');
             request.session.LoginAdmin = false;
             request.session.save()
@@ -82,7 +80,7 @@ const adminLoginSubmit = function (request, response) {
     });
 }
 
-export default {
+module.exports = {
     adminLogin,
     adminLoginSubmit
 }
