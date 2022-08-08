@@ -14,7 +14,7 @@ const login = function (request, response) {
         const dbName = "Website";
         const collectionName = "Setting";
 
-        var client = mongoDB.getDb();
+        var client = await mongoDB.getDb();
         const db = client.db(dbName);
         var collection = db.collection(collectionName);
 
@@ -56,7 +56,7 @@ const loginSubmit = function (request, response) {
     const dbName = "Website";
     const collectionName = "User Accounts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     db.collection(collectionName).find({ username: request.body.username, password: md5(request.body.password) }).toArray(function (queryCollectionErr, result) {

@@ -3,7 +3,7 @@ const logger = require('../utils/logger');
 const path = require('path');
 const md5 = require('md5');
 
-const adminLogin = function (request, response) {
+const adminLogin = async function (request, response) {
     if (request.session.LoginAdmin === true) {
         response.redirect('/admin/index');
     }
@@ -11,7 +11,7 @@ const adminLogin = function (request, response) {
         const dbName = "Website";
         const collectionName = "Setting";
 
-        var client = mongoDB.getDb();
+        var client = await mongoDB.getDb();
         const db = client.db(dbName);
         var collection = db.collection(collectionName);
 
@@ -49,11 +49,11 @@ const adminLogin = function (request, response) {
     }
 }
 
-const adminLoginSubmit = function (request, response) {
+const adminLoginSubmit = async function (request, response) {
     const dbName = "Website";
     const collectionName = "Admin Account";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     db.collection(collectionName).find({ username: request.body.username, password: md5(request.body.password) }).toArray(function (queryCollectionErr, result) {

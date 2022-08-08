@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 const adminIndex = async function (request, response) {
     const dbName = "Website";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     let iconURI;

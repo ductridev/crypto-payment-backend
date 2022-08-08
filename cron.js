@@ -15,7 +15,7 @@ const updateTokenPriceInUSDTask = cron.schedule("*/15 * * * *", async () => {
     const dbName = "TokenPrices";
     const collectionName = "Exchange Rates";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
 
     var request = https.request(options, function (response) {
         var chunks = [];
@@ -84,7 +84,7 @@ const sendEthersToSeller = cron.schedule("* * * * *", async () => {
     const dbName = "transactions";
     const collectionName = "Receipts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
     var collection = db.collection(collectionName);
 

@@ -7,7 +7,7 @@ const getHash = function (request, response) {
     const collectionName = "Transactions";
     const collectionName1 = "Receipts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
     var collection = db.collection(collectionName);
     var collection1 = db.collection(collectionName1);

@@ -10,7 +10,7 @@ const setting = function (request, response) {
     const dbName = "Website";
     const collectionName = "Setting";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
     var collection = db.collection(collectionName);
 

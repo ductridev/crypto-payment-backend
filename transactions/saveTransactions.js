@@ -2,12 +2,12 @@ const mongoDB = require('../db');
 const logger = require('../utils/logger');
 const ObjectId = require('mongodb').ObjectId;
 
-const saveTransactions = function (request, response) {
+const saveTransactions = async function (request, response) {
     const dbName = "transactions";
     const collectionName = "Transactions";
     const collectionName1 = "Receipts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
     var collection = db.collection(collectionName);
     var collection1 = db.collection(collectionName1);

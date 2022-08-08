@@ -6,7 +6,7 @@ const getPayment = async (request, response) =>{
     const dbName = "transactions";
     const collectionName = "Transactions";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     var collection = db.collection(collectionName);

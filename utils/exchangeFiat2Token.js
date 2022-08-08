@@ -5,7 +5,7 @@ const exchangeFiat2Token = async (request, response) => {
     const dbName = "TokenPrices";
     const collectionName = "Exchange Rates";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     var collection = db.collection(collectionName);

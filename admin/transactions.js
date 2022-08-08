@@ -12,7 +12,7 @@ const adminTransactions = function (request, response) {
     const collectionName = "Setting";
     const collectionName1 = "Transactions";
 
-    const client = mongoDB.getDb();
+    const client = await mongoDB.getDb();
     const db = client.db(dbName);
     const db1 = client.db(dbName1);
     const collection = db.collection(collectionName);

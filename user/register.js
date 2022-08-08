@@ -14,7 +14,7 @@ const register = function (request, response) {
         const dbName = "Website";
         const collectionName = "Setting";
 
-        var client = mongoDB.getDb();
+        var client = await mongoDB.getDb();
         const db = client.db(dbName);
         var collection = db.collection(collectionName);
 
@@ -64,7 +64,7 @@ const registerSubmit = function (request, response) {
     const dbName = "Website";
     const collectionName = "User Accounts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     db.collection(collectionName).find({ email: request.body.email }).toArray(function (queryCollectionErr, result) {
@@ -130,7 +130,7 @@ const verifyEmail = function(request, response){
     const dbName = "Website";
     const collectionName = "User Accounts";
 
-    var client = mongoDB.getDb();
+    var client = await mongoDB.getDb();
     const db = client.db(dbName);
 
     db.collection(collectionName).find({_id: new ObjectId(request.params.userID)}).toArray(function(queryCollectionErr, result){
