@@ -35,7 +35,6 @@
     "ws": "^8.8.1"
   },
   "scripts": {
-    "build": "netlify-lambda build express",
     "start": "node index.js"
   }
 }
