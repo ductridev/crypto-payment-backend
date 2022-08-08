@@ -45,12 +45,16 @@ const { sendBCH } = require('./bch/send');
 
 dotenv.config();
 
-mongoDB.dbConn(function (err, client) {
-    if (err) console.log(err);
-    else {
-        console.log('connected');
-    }
-});
+const init_mongoDB = async () => {
+    await mongoDB.dbConn(function (err, client) {
+        if (err) console.log(err);
+        else {
+            console.log('connected');
+        }
+    });
+}
+
+init_mongoDB();
 
 // Require the Routes API
 // Create a Server and run it on the port 5000, 5001, 5002, 5003
