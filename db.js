@@ -30,6 +30,7 @@ module.exports = {
                 }
             );
             mongoClient.connect(function (err, client) {
+                if(err) console.log(err);
                 _client = client;
                 console.log(client);
                 return client;
