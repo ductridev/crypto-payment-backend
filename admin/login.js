@@ -12,7 +12,6 @@ const adminLogin = function (request, response) {
         const collectionName = "Setting";
 
         var client = mongoDB.getDb();
-        console.log(client);
         const db = client.db(dbName);
         var collection = db.collection(collectionName);
 

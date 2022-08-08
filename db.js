@@ -15,13 +15,28 @@ module.exports = {
                 useUnifiedTopology: true
             }
         );
-        mongoClient.connect(function(err, client){
+        mongoClient.connect(function (err, client) {
             _client = client;
-            return callback( err, client );
+            return callback(err, client);
         });
     },
     getDb: function () {
-        console.log(_client);
-        return _client;
+        if (typeof _client === 'undefined') {
+            const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
+                {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                }
+            );
+            mongoClient.connect(function (err, client) {
+                _client = client;
+                console.log(client);
+                return client;
+            });
+        }
+        else {
+            console.log(_client);
+            return _client;
+        }
     }
 }
