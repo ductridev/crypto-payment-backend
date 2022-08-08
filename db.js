@@ -3,11 +3,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 let _client;
+const password = process.env.PASSWORD;
+const cluster = process.env.CLUSTER;
 
 module.exports = {
     dbConn: async function (callback) {
-        const password = process.env.PASSWORD;
-        const cluster = process.env.CLUSTER;
 
         const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
             {
@@ -22,8 +22,6 @@ module.exports = {
     },
     getDb: function () {
         if (typeof _client === 'undefined') {
-            const password = process.env.PASSWORD;
-            const cluster = process.env.CLUSTER;
 
             const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
                 {
