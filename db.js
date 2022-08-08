@@ -34,7 +34,7 @@ module.exports = {
             return client;
         });
 
-        console.log(mongoClient);
+        // console.log(mongoClient);
 
         // if (typeof _client === 'undefined') {
 
