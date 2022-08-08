@@ -21,6 +21,7 @@ module.exports = {
         });
     },
     getDb: function () {
+        console.log(_client);
         if (typeof _client === 'undefined') {
 
             const mongoClient = new MongoClient(`mongodb+srv://backend:${password}@${cluster}.mongodb.net/?retryWrites=true&w=majority`,
@@ -30,14 +31,17 @@ module.exports = {
                 }
             );
             mongoClient.connect(function (err, client) {
-                if (err) console.log(err);
-                _client = client;
-                console.log(client);
-                return client;
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    _client = client;
+                    console.log(client);
+                    return client;
+                }
             });
         }
         else {
-            console.log(_client);
             return _client;
         }
     }
