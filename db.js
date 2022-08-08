@@ -21,6 +21,7 @@ module.exports = {
         });
     },
     getDb: function () {
+        console.log(_client);
         return _client;
     }
 }
