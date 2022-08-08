@@ -63,7 +63,7 @@ app.set("views", path.join(path.resolve("."), '/public/templates/'));
 
 var corsOptions = {
     // origin: ['https://crypto-payment.estar-solutions.com/', 'https://crypto-payment.estar-solutions.com'],
-    origin: ['http://localhost:3000/', 'http://localhost:3000'],
+    origin: ['http://localhost:3000/', 'http://localhost:3000', 'https://crypto-payment-07082022.netlify.app/'],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
