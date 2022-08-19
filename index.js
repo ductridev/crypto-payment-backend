@@ -4,18 +4,16 @@ const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const cluster = require("cluster");
-const totalCPUs = require("os").cpus().length;
 const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
 const timeout = require('connect-timeout');
 const Client = require('coinbase').Client;
 const session = require('express-session')
 const mustacheExpress = require('mustache-express');
-// const RedisStore = require("connect-redis")(session);
-// const { createClient } = require("redis");
 
 const mongoDB = require('./db');
+const DAG = require('./dag');
+const WS = require('./DAG/websocket/Server');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -39,6 +37,11 @@ const { exchangeFiat2Token } = require('./utils/exchangeFiat2Token');
 const { exchangeToken2Fiat } = require('./utils/exchangeToken2Fiat');
 const { getPayment } = require('./transactions/getPayment');
 const { sendBCH } = require('./bch/send');
+const { stats } = require('./DAG/websocket/modules/stats');
+const { allBlock } = require('./DAG/websocket/modules/allBlock');
+const { block } = require('./DAG/websocket/modules/block');
+const { newBlock } = require('./DAG/websocket/modules/newBlock');
+const { lastBlock } = require('./DAG/websocket/modules/lastBlock');
 
 // let redisClient = createClient({ legacyMode: true });
 // redisClient.connect().catch(console.error);
@@ -51,6 +54,8 @@ const init_mongoDB = async () => {
 
 init_mongoDB();
 
+DAG.initDAG();
+
 // Require the Routes API
 // Create a Server and run it on the port 5000, 5001, 5002, 5003
 
@@ -62,7 +67,7 @@ app.set("views", path.join(path.resolve("."), '/public/templates/'));
 
 var corsOptions = {
     // origin: ['https://crypto-payment.estar-solutions.com/', 'https://crypto-payment.estar-solutions.com'],
-    origin: ['http://localhost:3000/', 'http://localhost:3000', 'https://crypto-payment-07082022.netlify.app/'],
+    origin: ['http://localhost:3000/', 'http://localhost:3000', 'https://crypto-payment.estar-solutions.com', 'https://crypto-payment.estar-solutions.com/'],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -127,6 +132,11 @@ app.get('/getPayment/:paymentID', getPayment);
 
 app.get('/bch/send/:sellerAddress/:key/:amount', sendBCH);
 
+app.get('/dag/stats', stats);
+app.get('/dag/lastBlock', lastBlock);
+app.get('/dag/block/:number', block);
+app.get('/dag/allBlock', allBlock);
+app.get('/dag/newBlock/:paymentID/:buyerAddress/:sellerAddress/:value', newBlock);
 // Temporary disabled
 // app.get('/coinbase/auth/', function (request, response) {
 //     response.redirect('https://www.coinbase.com/oauth/authorize?response_type=code&client_id=2abb855bdd5b3a649f1f54a811b53f80832d2b6f4516758014c35de4ed576090&redirect_uri=http://127.0.0.1:5000/auth/coinbase/callback&scope=wallet:accounts:read,wallet:transactions:request,wallet:transactions:read');
@@ -199,6 +209,7 @@ app.get('*', function (req, res) {
 // Create a Server and run it on the port 5000, 5001, 5002, 5003 => Temp disable
 http.createServer(app).listen(process.env.PORT || 5000, function () {
     // Starting the Server at the port 5000
+    console.log(`Server started at ${process.env.PORT || 5000}`);
 })
 // http.createServer(app).listen(process.env.PORT_BACKEND2 || 5001, function () {
 //     // Starting the Server at the port 5001
