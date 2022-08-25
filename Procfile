@@ -1,0 +1,1 @@
+backend: node backend/index.js
