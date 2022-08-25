@@ -10,6 +10,7 @@ const timeout = require('connect-timeout');
 const Client = require('coinbase').Client;
 const session = require('express-session')
 const mustacheExpress = require('mustache-express');
+const cron = require('node-cron');
 
 const mongoDB = require('./db');
 const DAG = require('./dag');
@@ -24,12 +25,15 @@ const { login, loginSubmit } = require("./user/login");
 const { transactions } = require("./user/transactions");
 const { wallet } = require("./user/wallet");
 const { register, registerSubmit, registerSuccess, verifyEmail } = require("./user/register");
+
 const { adminIndex } = require("./admin/index");
 const { adminLogin, adminLoginSubmit } = require("./admin/login");
 const { adminLogout } = require("./admin/logout");
 const { adminSetting } = require("./admin/setting");
 const { adminTransactions } = require("./admin/transactions");
 const { adminUsers } = require("./admin/users");
+const { adminDAG } = require('./admin/dag');
+
 const { adminAuthenticate, userAuthenticate } = require('./utils/authencate');
 const { getHash } = require('./transactions/getHash');
 const { saveTransactions } = require('./transactions/saveTransactions');
@@ -37,6 +41,7 @@ const { exchangeFiat2Token } = require('./utils/exchangeFiat2Token');
 const { exchangeToken2Fiat } = require('./utils/exchangeToken2Fiat');
 const { getPayment } = require('./transactions/getPayment');
 const { sendBCH } = require('./bch/send');
+
 const { stats } = require('./DAG/websocket/modules/stats');
 const { allBlock } = require('./DAG/websocket/modules/allBlock');
 const { block } = require('./DAG/websocket/modules/block');
@@ -55,6 +60,20 @@ const init_mongoDB = async () => {
 init_mongoDB();
 
 DAG.initDAG();
+
+const { exportDAG, importDAG } = require('./DAG/utils/ex&imDAG');
+
+importDAG(DAG.getDAG());
+
+const saveDAG = cron.schedule("*/30 * * * * *", async () => {
+    const dag = DAG.getDAG();
+    dag.dag_pushNewBlock('test', 'test', 'test', 'test');
+    dag.dag_pushNewBlock('test1', 'test1', 'test1', 'test1');
+    await exportDAG(dag);
+})
+
+saveDAG.start();
+
 
 // Require the Routes API
 // Create a Server and run it on the port 5000, 5001, 5002, 5003
@@ -110,6 +129,7 @@ app.get('/admin/index', adminAuthenticate, adminIndex);
 app.get('/admin/setting', adminAuthenticate, adminSetting);
 app.get('/admin/manage-users', adminAuthenticate, adminUsers);
 app.get('/admin/manage-transactions', adminAuthenticate, adminTransactions);
+app.get('/admin/dag/', adminAuthenticate, adminDAG);
 app.get('/register', register);
 app.post('/register/submit', registerSubmit);
 app.get('/register/emailVerify/:userID', verifyEmail);
